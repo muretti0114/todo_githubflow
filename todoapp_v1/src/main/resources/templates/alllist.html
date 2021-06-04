@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+</head>
+
+<body>
+    <h1> みんなのToDoリスト</h1>
+    <p>
+        <a th:href="@{/{mid}/todos(mid=${member.mid})}">自分のToDo</a>
+        <a th:href="@{/}">ログアウト</a>
+    </p>
+    <h2>ToDo</h2>
+    <table border="1">
+        <tr>
+            <th>#</th>
+            <th>タイトル</th>
+            <th>作成者</th>
+            <th>作成日時</th>
+        </tr>
+        <tr th:each="todo: ${todos}">
+            <td>[[${todo.seq}]]</td>
+            <td>[[${todo.title}]]</td>
+            <td>[[${todo.mid}]]</td>
+            <td>[[${todo.createdAt}]]</td>
+        </tr>
+    </table>
+
+    <h2>Done</h2>
+    <table border="1">
+        <tr>
+            <th>#</th>
+            <th>タイトル</th>
+            <th>作成者</th>
+            <th>完了日時</th>
+        </tr>
+        <tr th:each="done: ${dones}">
+            <td>[[${done.seq}]]</td>
+            <td>[[${done.title}]]</td>
+            <td>[[${done.mid}]]</td>
+            <td>[[${done.doneAt}]]</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
