@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.ac.kobe_u.cs.itspecialist.todoapp.dto.ToDoForm;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.Member;
@@ -36,7 +37,7 @@ public class ToDoController {
      * ログイン処理．midの存在確認をして，ユーザページにリダイレクト
      */
     @PostMapping("/login")
-    String login(String mid, Model model) {
+    String login(@RequestParam String mid, Model model) {
         Member m = mService.getMember(mid);
 
         return "redirect:/" + m.getMid() + "/todos";
