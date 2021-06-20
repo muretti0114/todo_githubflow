@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoアプリケーション</title>
+</head>
+
+<body>
+    <h1>ToDoアプリケーション</h1>
+    <img th:src=@{/img/todo_people.png} width="640px">
+    <p>
+        ログインしてください．初めての人は <a th:href=@{/register}>新規登録</a>してください．
+    </p>
+    <form role="form" th:action="@{/login}" method="post">
+        <p>
+            <label>メンバーID: </label>
+            <input type="text" id="mid" name="mid" /> 
+        </p>
+        <p>
+            <input type="submit" value="ログイン" />
+        </p>
+    </form>
+</body>
+
+</html>
