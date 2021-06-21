@@ -12,7 +12,7 @@
         以下の情報でメンバーを登録します．よろしければ登録を押してください．
     </p>
 
-    <form role="form" th:action="@{/register}" th:object="${MemberForm}" method="post">
+    <form role="form" th:action="@{/admin/register}" th:object="${MemberForm}" method="post">
         <p>
             <label>メンバーID: </label>
             [[*{mid}]]
