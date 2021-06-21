@@ -1,10 +1,13 @@
 package jp.ac.kobe_u.cs.itspecialist.todoapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,6 +28,8 @@ public class MemberController {
      */
     @GetMapping("/register")
     String showUserForm(Model model) {
+        List<Member> members = mService.getAllMembers();
+        model.addAttribute("members", members);
         MemberForm form = new MemberForm();
         model.addAttribute("MemberForm", form);
         
@@ -45,7 +50,7 @@ public class MemberController {
     }
 
     /**
-     * 管理者用・ユーザ登録処理＆完了ページ
+     * 管理者用・ユーザ登録処理 -> 完了ページ HTTP-POST /admin/register
      * @param form
      * @param model
      * @return
@@ -58,4 +63,11 @@ public class MemberController {
         return "registered";
     }
     
+    @GetMapping("/delete/{mid}")
+    String deleteUser(@PathVariable String mid, Model model) {
+        mService.deleteMember(mid);
+        return showUserForm(model);
+    }
+
+
 }
