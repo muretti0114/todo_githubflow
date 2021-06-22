@@ -34,7 +34,7 @@ dependencies {
 
 war {
     enabled = true
-    archiveName='ToDoV1.war' // <-ここはプロジェクトに合わせて書き換えてください
+    archiveName='ToDoV0.war' // <-ここはプロジェクトに合わせて書き換えてください
 }
 
 
