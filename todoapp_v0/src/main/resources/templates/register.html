@@ -3,12 +3,29 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>メンバー登録</title>
+    <title>管理者画面</title>
 </head>
 
 <body>
     <h1>管理者画面</h1>
-
+    <h2>メンバー新規登録</h2>
+    <p> メンバーIDと氏名を入力して，「確認する」を押してください．</p>
+    <ul>
+        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます</li>
+    </ul>
+    <form role="form" th:action="@{/admin/check}" th:object="${MemberForm}" method="post">
+        <table>
+            <tr>
+                <td><label>メンバーID: </label></td>
+                <td><input type="text" required th:field="*{mid}" /></td>
+            </tr>
+            <tr>
+                <td><label>氏名: </label></td>
+                <td><input type="text" required th:field="*{name}" /></td>
+            </tr>
+        </table>
+        <p><input type="submit" value="確認する" /></p>
+    </form>
     <h2>登録済みメンバー</h2>
     <table border="1">
         <tr>
@@ -22,41 +39,5 @@
             <td><a th:href=@{/admin/delete/{m}(m=${m.mid})}>削除</a></td>
         </tr>
     </table>
-
-
-    <h2>メンバー新規登録</h2>
-    <p>
-        メンバーIDと氏名を入力して，「確認する」を押してください．
-    </p>
-    <ul>
-        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます</li>
-    </ul>
-
-    <form role="form" th:action="@{/admin/check}" th:object="${MemberForm}" method="post">
-        <table>
-            <tr>
-                <td>
-                    <label>メンバーID: </label>
-                </td>
-                <td>
-                    <input type="text" required th:field="*{mid}" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>氏名: </label>
-                </td>
-                <td>
-                    <input type="text" required th:field="*{name}" />
-                </td>
-            </tr>
-        </table>
-        <p>
-            <input type="submit" value="確認する" />
-        </p>
-    </form>
-
-
 </body>
-
 </html>
