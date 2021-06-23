@@ -23,12 +23,13 @@ import lombok.NoArgsConstructor;
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long seq;         //通し番号
-    String title;     //題目
-    String mid;       //作成者
-    boolean done;     //完了フラグ
+    Long seq;          //通し番号
+    String title;      //題目
+    String mid;        //作成者
+    boolean done;      //完了フラグ
     @Temporal(TemporalType.TIMESTAMP)
-    Date createdAt;   //作成日時
+    Date createdAt;    //作成日時
     @Temporal(TemporalType.TIMESTAMP)
-    Date doneAt;      //完了日時
+    Date doneAt;       //完了日時
+    String background; // 背景色
 }

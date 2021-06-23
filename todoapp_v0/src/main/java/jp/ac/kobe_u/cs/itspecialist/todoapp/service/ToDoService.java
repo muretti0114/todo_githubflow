@@ -2,6 +2,8 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,27 @@ public class ToDoService {
      */
     public ToDo createToDo(String mid, ToDoForm form) {
         Member m = mService.getMember(mid);
-        
+
         ToDo todo = new ToDo();
         todo.setTitle(form.getTitle());
         todo.setCreatedAt(new Date());
+        todo.setBackground(form.getBackground());
         todo.setMid(m.getMid());
         todo.setDone(false);
 
+        return tRepo.save(todo);
+    }
+
+    /**
+     * ToDoを更新する．
+     * @param mid
+     * @param seq
+     * @param background
+     * @return
+     */
+    public ToDo updateToDoBackground(String mid, Long seq, String background) {
+        ToDo todo = getToDo(seq);
+        todo.setBackground(background);
         return tRepo.save(todo);
     }
 

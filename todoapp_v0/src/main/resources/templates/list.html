@@ -21,10 +21,14 @@
             <th>コマンド</th>
         </tr>
         <tr th:each="todo: ${todos}">
-            <td>[[${todo.seq}]]</td>
+            <td th:style="'background-color: ' + ${todo.background}">[[${todo.seq}]]</td>
             <td>[[${todo.title}]]</td>
             <td>[[${todo.createdAt}]]</td>
             <td>
+                <form th:object="${ToDoForm}" th:action="@{/{mid}/todos/{seq}/background(mid=${member.mid},seq=${todo.seq})}" th:method="put">
+                    <input type="color" name="background" th:value="${todo.background}" />
+                    <input type="submit" value="更新" />
+                </form>
                 <a th:href="@{/{mid}/todos/{seq}/done(mid=${member.mid},seq=${todo.seq})}">完了</a>
             </td>
         </tr>
@@ -35,6 +39,7 @@
             <td colspan="3">
                 <form role="form" th:action="@{/{mid}/todos(mid=${member.mid})}" th:object="${ToDoForm}" method="post">
                     <input type="text" required th:field="*{title}" />
+                    <input type="color" required name="background" th:value="*{background == null ? '#ffffff': background}" />
                     <input type="submit" value="新規作成" />
                 </form>
             </td>
@@ -50,7 +55,7 @@
             <th>完了日時</th>
         </tr>
         <tr th:each="done: ${dones}">
-            <td>[[${done.seq}]]</td>
+            <td th:style="'background-color: ' + ${done.background}">[[${done.seq}]]</td>
             <td>[[${done.title}]]</td>
             <td>[[${done.createdAt}]]</td>
             <td>[[${done.doneAt}]]</td>

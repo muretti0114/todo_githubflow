@@ -21,7 +21,7 @@
             <th>作成日時</th>
         </tr>
         <tr th:each="todo: ${todos}">
-            <td>[[${todo.seq}]]</td>
+            <td th:style="'background-color: ' + ${todo.background}">[[${todo.seq}]]</td>
             <td>[[${todo.title}]]</td>
             <td>[[${todo.mid}]]</td>
             <td>[[${todo.createdAt}]]</td>
@@ -37,7 +37,7 @@
             <th>完了日時</th>
         </tr>
         <tr th:each="done: ${dones}">
-            <td>[[${done.seq}]]</td>
+            <td th:style="'background-color: ' + ${done.background}">>[[${done.seq}]]</td>
             <td>[[${done.title}]]</td>
             <td>[[${done.mid}]]</td>
             <td>[[${done.doneAt}]]</td>
