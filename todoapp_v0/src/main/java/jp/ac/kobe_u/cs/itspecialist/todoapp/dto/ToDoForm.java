@@ -7,5 +7,6 @@ import lombok.Data;
  */
 @Data
 public class ToDoForm {
-    String title; //ToDo題目
+    String title;      // ToDo題目
+    String background; // 背景色
 }
