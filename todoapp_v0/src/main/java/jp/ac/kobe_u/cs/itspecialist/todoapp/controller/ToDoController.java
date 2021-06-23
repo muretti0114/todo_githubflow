@@ -3,6 +3,8 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -47,11 +49,11 @@ public class ToDoController {
      * ユーザのToDoリストのページ
      */
     @GetMapping("/{mid}/todos")
-    String showToDoList(@PathVariable String mid, Model model) {
+    String showToDoList(@PathVariable String mid, Model model, Pageable pageable) {
         Member m = mService.getMember(mid);
         ToDoForm form = new ToDoForm();
-        List<ToDo> todos = tService.getToDoList(mid);
-        List<ToDo> dones = tService.getDoneList(mid);
+        Page<ToDo> todos = tService.getToDoList(mid, pageable);
+        Page<ToDo> dones = tService.getDoneList(mid, pageable);
         model.addAttribute("member", m);
         model.addAttribute("todos", todos);
         model.addAttribute("dones", dones);
@@ -63,10 +65,10 @@ public class ToDoController {
      * 全員のToDoリストのページ
      */
     @GetMapping("/{mid}/todos/all")
-    String showAllToDoList(@PathVariable String mid, Model model) {
+    String showAllToDoList(@PathVariable String mid, Model model, Pageable pageable) {
         Member m = mService.getMember(mid);
-        List<ToDo> todos = tService.getToDoList();
-        List<ToDo> dones = tService.getDoneList();
+        Page<ToDo> todos = tService.getToDoList(pageable);
+        Page<ToDo> dones = tService.getDoneList(pageable);
         model.addAttribute("member", m);
         model.addAttribute("todos", todos);
         model.addAttribute("dones", dones);
