@@ -2,6 +2,7 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,13 @@ public class ToDoService {
         todo.setTitle(form.getTitle());
         todo.setCreatedAt(new Date());
         todo.setMid(m.getMid());
+        if(form.getDue() != null) {
+            if(todo.isValidDue(form)) {
+                throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, form.getDue()
+                        + ": Due should be after created date");
+            }
+            todo.setDue(form.getDueDate());
+        }
         todo.setDone(false);
 
         return tRepo.save(todo);
@@ -83,6 +91,24 @@ public class ToDoService {
         return tRepo.findByDone(true);
     }
 
+    /**
+     * 〆切を設定する．
+     */
+    public ToDo updateDue(String mid, Long seq, Date due) {
+        ToDo todo = getToDo(seq);
+        //Doneの認可を確認する．他人のToDoを閉めたらダメ．
+        if(!Objects.equals(mid, todo.getMid())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
+                    + ": Cannot update other's todo of " + todo.getMid());
+        }
+        //締め切りは作成日より後ろでないといけない．
+        if(due.before(todo.getCreatedAt())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, due
+                    + ": Due should be after created date");
+        }
+        todo.setDue(due);
+        return tRepo.save(todo);
+    }
 
     /**
      * ToDoを完了する
@@ -94,8 +120,8 @@ public class ToDoService {
         ToDo todo = getToDo(seq);
         //Doneの認可を確認する．他人のToDoを閉めたらダメ．
         if (!mid.equals(todo.getMid())) {
-            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid 
-            + ": Cannot done other's todo of " + todo.getMid());
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
+                    + ": Cannot done other's todo of " + todo.getMid());
         }
         todo.setDone(true);
         todo.setDoneAt(new Date());
