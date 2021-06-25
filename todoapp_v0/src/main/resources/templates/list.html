@@ -16,16 +16,16 @@
     <table border="1">
         <tr>
             <th>#
-                <a th:href="@{/{mid}/todos?sort_by=seq&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=seq&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'seq'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'seq'}, order=${'desc'})}">↑</a>
             </th>
             <th>タイトル
-                <a th:href="@{/{mid}/todos?sort_by=title&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=title&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'title'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'title'}, order=${'desc'})}">↑</a>
             </th>
             <th>作成日時
-                <a th:href="@{/{mid}/todos?sort_by=id&created_at=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=id&created_at=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'created_at'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'created_at'}, order=${'desc'})}">↑</a>
             </th>
             <th>コマンド</th>
         </tr>
@@ -54,20 +54,20 @@
     <table border="1">
         <tr>
             <th>#
-                <a th:href="@{/{mid}/todos?sort_by=seq&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=seq&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'seq'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'seq'}, order=${'desc'})}">↑</a>
             </th>
             <th>タイトル
-                <a th:href="@{/{mid}/todos?sort_by=title&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=title&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'title'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'title'}, order=${'desc'})}">↑</a>
             </th>
             <th>作成日時
-                <a th:href="@{/{mid}/todos?sort_by=created_at&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=created_at&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'created_at'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'created_at'}, order=${'desc'})}">↑</a>
             </th>
             <th>完了日時
-                <a th:href="@{/{mid}/todos?sort_by=done_at&order=asc(mid=${member.mid})}">↓</a>
-                <a th:href="@{/{mid}/todos?sort_by=done_at&order=desc(mid=${member.mid})}">↑</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'done_at'}, order=${'asc'})}">↓</a>
+                <a th:href="@{/{mid}/todos(mid=${member.mid}, sort_by=${'done_at'}, order=${'desc'})}">↑</a>
             </th>
         </tr>
         <tr th:each="done: ${dones}">
