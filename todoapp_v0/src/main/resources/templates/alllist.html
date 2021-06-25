@@ -19,12 +19,14 @@
             <th>タイトル</th>
             <th>作成者</th>
             <th>作成日時</th>
+            <th>締め切り</th>
         </tr>
         <tr th:each="todo: ${todos}">
             <td>[[${todo.seq}]]</td>
             <td>[[${todo.title}]]</td>
             <td>[[${todo.mid}]]</td>
             <td>[[${todo.createdAt}]]</td>
+            <td>[[${todo.due}]]</td>
         </tr>
     </table>
 
@@ -34,12 +36,14 @@
             <th>#</th>
             <th>タイトル</th>
             <th>作成者</th>
+            <th>締め切り</th>
             <th>完了日時</th>
         </tr>
         <tr th:each="done: ${dones}">
             <td>[[${done.seq}]]</td>
             <td>[[${done.title}]]</td>
             <td>[[${done.mid}]]</td>
+            <td>[[${done.due}]]</td>
             <td>[[${done.doneAt}]]</td>
         </tr>
     </table>
