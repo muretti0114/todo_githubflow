@@ -1,7 +1,8 @@
 package jp.ac.kobe_u.cs.itspecialist.todoapp.dto;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
+import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.ToDo;
 import lombok.Data;
 
 /**
@@ -9,6 +10,13 @@ import lombok.Data;
  */
 @Data
 public class ToDoForm {
-    @NotBlank
     String title; //ToDo題目
+
+    public ToDo toEntity() {
+        ToDo t = new ToDo();
+        t.setTitle(title);
+        t.setCreatedAt(new Date());
+        t.setDone(false);
+        return t;
+    }
 }
