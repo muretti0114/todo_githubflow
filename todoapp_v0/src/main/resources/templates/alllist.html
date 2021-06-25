@@ -24,7 +24,7 @@
             <td>[[${todo.seq}]]</td>
             <td>[[${todo.title}]]</td>
             <td>[[${todo.mid}]]</td>
-            <td>[[${todo.createdAt}]]</td>
+            <td th:title="${todo.createdAt}">[[${todo.humanizeCreatedAt()}]]</td>
         </tr>
     </table>
 
@@ -40,7 +40,7 @@
             <td>[[${done.seq}]]</td>
             <td>[[${done.title}]]</td>
             <td>[[${done.mid}]]</td>
-            <td>[[${done.doneAt}]]</td>
+            <td th:title="${done.doneAt}">[[${done.humanizeDoneAt()}]]</td>
         </tr>
     </table>
 
