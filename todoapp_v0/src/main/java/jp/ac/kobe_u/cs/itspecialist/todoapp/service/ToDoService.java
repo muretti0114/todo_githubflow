@@ -2,6 +2,9 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,34 +58,95 @@ public class ToDoService {
      * @param mid
      * @return
      */
-    public List<ToDo> getToDoList(String mid) {
-        return tRepo.findByMidAndDone(mid, false);
+    public List<ToDo> getToDoList(String mid, String sortBy, String order) {
+        BiFunction<String, Boolean, List<ToDo>> finder = selectFinderByMidAndDone(sortBy, order);
+        return finder.apply(mid, false);
     }
+
     /**
      * あるメンバーのDoneリストを取得する (R)
      * @param mid
      * @return
      */
-    public List<ToDo> getDoneList(String mid) {
-        return tRepo.findByMidAndDone(mid, true);
+    public List<ToDo> getDoneList(String mid, String sortBy, String order) {
+        BiFunction<String, Boolean, List<ToDo>> finder = selectFinderByMidAndDone(sortBy, order);
+        return finder.apply(mid, true);
+    }
+
+    private BiFunction<String, Boolean, List<ToDo>> selectFinderByMidAndDone(String sortBy, String order) {
+        if(Objects.equals(sortBy, "seq")){
+            if(Objects.equals(order, "asc"))
+                return (mid, doneFlag) -> tRepo.findByMidAndDone(mid, doneFlag);
+            else
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderBySeqDesc(mid, doneFlag);
+        } else if(Objects.equals(sortBy, "title")) {
+            if(Objects.equals(order, "asc"))
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitle(mid, doneFlag);
+            else
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitleDesc(mid, doneFlag);
+        } else if(Objects.equals(sortBy, "created_at")) {
+            if(Objects.equals(order, "asc"))
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAt(mid, doneFlag);
+            else
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAtDesc(mid, doneFlag);
+        } else if(Objects.equals(sortBy, "done_at")) {
+            if(Objects.equals(order, "asc"))
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAt(mid, doneFlag);
+            else
+                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAtDesc(mid, doneFlag);
+        }
+        return (mid, doneFlag) -> tRepo.findByMidAndDone(mid, doneFlag);
     }
 
     /**
      * 全員のToDoリストを取得する (R)
      * @return
      */
-    public List<ToDo> getToDoList() {
-        return tRepo.findByDone(false);
+    public List<ToDo> getToDoList(String sortBy, String order) {
+        Function<Boolean, List<ToDo>> mapper = selectFinderByDone(sortBy, order);
+        return mapper.apply(false);
+        // return tRepo.findByDone(false);
     }
 
     /**
      * 全員のDoneリストを取得する (R)
      * @return
      */
-    public List<ToDo> getDoneList() {
-        return tRepo.findByDone(true);
+    public List<ToDo> getDoneList(String sortBy, String order) {
+        Function<Boolean, List<ToDo>> mapper = selectFinderByDone(sortBy, order);
+        return mapper.apply(true);
+        // return tRepo.findByDone(true);
     }
 
+    private Function<Boolean, List<ToDo>> selectFinderByDone(String sortBy, String order) {
+        if(Objects.equals(sortBy, "seq")){
+            if(Objects.equals(order, "asc"))
+                return (doneFlag) -> tRepo.findByDone(doneFlag);
+            else
+                return (doneFlag) -> tRepo.findByDoneOrderBySeqDesc(doneFlag);
+        } else if(Objects.equals(sortBy, "title")) {
+            if(Objects.equals(order, "asc"))
+                return (doneFlag) -> tRepo.findByDoneOrderByTitle(doneFlag);
+            else
+                return (doneFlag) -> tRepo.findByDoneOrderByTitleDesc(doneFlag);
+        } else if(Objects.equals(sortBy, "mid")) {
+            if(Objects.equals(order, "asc"))
+                return (doneFlag) -> tRepo.findByDoneOrderByMid(doneFlag);
+            else
+                return (doneFlag) -> tRepo.findByDoneOrderByMidDesc(doneFlag);
+        } else if(Objects.equals(sortBy, "created_at")) {
+            if(Objects.equals(order, "asc"))
+                return (doneFlag) -> tRepo.findByDoneOrderByCreatedAt(doneFlag);
+            else
+                return (doneFlag) -> tRepo.findByDoneOrderByCreatedAtDesc(doneFlag);
+        } else if(Objects.equals(sortBy, "done_at")) {
+            if(Objects.equals(order, "asc"))
+                return (doneFlag) -> tRepo.findByDoneOrderByDoneAt(doneFlag);
+            else
+                return (doneFlag) -> tRepo.findByDoneOrderByDoneAtDesc(doneFlag);
+        }
+        return (doneFlag) -> tRepo.findByDone(doneFlag);
+    }
 
     /**
      * ToDoを完了する
