@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.ac.kobe_u.cs.itspecialist.todoapp.dto.ToDoForm;
-import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.Member;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.ToDo;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.exception.ToDoAppException;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.repository.ToDoRepository;
@@ -18,22 +17,16 @@ public class ToDoService {
     MemberService mService;
     @Autowired
     ToDoRepository tRepo;
-
     /**
      * ToDoを作成する (C)
-     * @param mid
-     * @param form
+     * @param mid 作成者
+     * @param form フォーム
      * @return
      */
     public ToDo createToDo(String mid, ToDoForm form) {
-        Member m = mService.getMember(mid);
-        
-        ToDo todo = new ToDo();
-        todo.setTitle(form.getTitle());
-        todo.setCreatedAt(new Date());
-        todo.setMid(m.getMid());
-        todo.setDone(false);
-
+        mService.getMember(mid); //実在メンバーか確認
+        ToDo todo = form.toEntity();
+        todo.setMid(mid);
         return tRepo.save(todo);
     }
 
@@ -86,8 +79,8 @@ public class ToDoService {
 
     /**
      * ToDoを完了する
-     * @param mid
-     * @param seq
+     * @param mid 完了者
+     * @param seq 完了するToDoの番号
      * @return
      */
     public ToDo done(String mid, Long seq) {
@@ -101,6 +94,4 @@ public class ToDoService {
         todo.setDoneAt(new Date());
         return tRepo.save(todo);
     }
-
-
 }
