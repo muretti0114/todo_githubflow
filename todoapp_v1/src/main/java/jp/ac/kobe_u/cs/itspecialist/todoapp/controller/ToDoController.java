@@ -24,7 +24,6 @@ public class ToDoController {
     MemberService mService;
     @Autowired
     ToDoService tService;
-
     /**
      * トップページ
      */
@@ -32,49 +31,44 @@ public class ToDoController {
     String showIndex(Model model) {
         return "index";
     }
-
     /**
      * ログイン処理．midの存在確認をして，ユーザページにリダイレクト
      */
     @PostMapping("/login")
     String login(@RequestParam String mid, Model model) {
-        Member m = mService.getMember(mid);
-
+        Member m = mService.getMember(mid); // 存在チェック
         return "redirect:/" + m.getMid() + "/todos";
     }
-
     /**
      * ユーザのToDoリストのページ
      */
     @GetMapping("/{mid}/todos")
     String showToDoList(@PathVariable String mid, Model model) {
         Member m = mService.getMember(mid);
-        ToDoForm form = new ToDoForm();
-        List<ToDo> todos = tService.getToDoList(mid);
-        List<ToDo> dones = tService.getDoneList(mid);
         model.addAttribute("member", m);
-        model.addAttribute("todos", todos);
-        model.addAttribute("dones", dones);
+        ToDoForm form = new ToDoForm();
         model.addAttribute("ToDoForm", form);
+        List<ToDo> todos = tService.getToDoList(mid);
+        model.addAttribute("todos", todos);
+        List<ToDo> dones = tService.getDoneList(mid);
+        model.addAttribute("dones", dones);
         return "list";
     }
-
     /**
      * 全員のToDoリストのページ
      */
     @GetMapping("/{mid}/todos/all")
     String showAllToDoList(@PathVariable String mid, Model model) {
         Member m = mService.getMember(mid);
-        List<ToDo> todos = tService.getToDoList();
-        List<ToDo> dones = tService.getDoneList();
         model.addAttribute("member", m);
+        List<ToDo> todos = tService.getToDoList();
         model.addAttribute("todos", todos);
+        List<ToDo> dones = tService.getDoneList();
         model.addAttribute("dones", dones);
         return "alllist";
     }
-
     /**
-     * ToDoの作成．処理後，ユーザページへリダイレクト
+     * ToDoの作成．作成処理後，ユーザページへリダイレクト
      */
     @PostMapping("/{mid}/todos")
     String createToDo(@PathVariable String mid, @Validated @ModelAttribute(name = "ToDoForm") ToDoForm form,
@@ -82,16 +76,13 @@ public class ToDoController {
         tService.createToDo(mid, form);
         return "redirect:/" + mid + "/todos";
     }
-
     /**
-     * ToDoの完了．処理後，ユーザページへリダイレクト
+     * ToDoの完了．完了処理後，ユーザページへリダイレクト
      */
     @GetMapping("/{mid}/todos/{seq}/done")
-    String doneToDo(@PathVariable String mid, 
-        @PathVariable Long seq, Model model) {
-            tService.done(mid, seq);
+    String doneToDo(@PathVariable String mid, @PathVariable Long seq, Model model) {
+        tService.done(mid, seq);
         return "redirect:/" + mid + "/todos";
     }
-
 
 }

@@ -54,20 +54,6 @@ public class MemberService {
     }
 
     /**
-     * メンバーを更新する (U)
-     */
-    public Member updateMember(String mid, MemberForm form) {
-        //認可チェック．他人の情報は書き換えちゃダメ！
-        if (!mid.equals(form.getMid())) {
-            throw new ToDoAppException(ToDoAppException.INVALID_MEMBER_OPERATION, mid +": Cannot update other's member info");
-        }
-
-        Member m = getMember(mid); //情報とってきて
-        m.setName(form.getName()); //名前を書き換えて
-        return mRepo.save(m);       //セーブ
-    }
-
-    /**
      * メンバーを削除する (D)
      */
     public void deleteMember(String mid) {
