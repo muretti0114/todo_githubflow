@@ -1,6 +1,7 @@
 package jp.ac.kobe_u.cs.itspecialist.todoapp.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,11 +48,16 @@ public class ToDoController {
      * ユーザのToDoリストのページ
      */
     @GetMapping("/{mid}/todos")
-    String showToDoList(@PathVariable String mid, Model model) {
+    String showToDoList(@PathVariable String mid,
+                        @RequestParam(name = "sort_by", required = false) String sortBy,
+                        @RequestParam(name = "order", required = false) String order, Model model) {
         Member m = mService.getMember(mid);
         ToDoForm form = new ToDoForm();
-        List<ToDo> todos = tService.getToDoList(mid);
-        List<ToDo> dones = tService.getDoneList(mid);
+        // デフォルト値を入れておく．
+        sortBy = getDefault(sortBy, "seq");
+        order = getDefault(order, "asc");
+        List<ToDo> todos = tService.getToDoList(mid, sortBy, order);
+        List<ToDo> dones = tService.getDoneList(mid, sortBy, order);
         model.addAttribute("member", m);
         model.addAttribute("todos", todos);
         model.addAttribute("dones", dones);
@@ -63,14 +69,26 @@ public class ToDoController {
      * 全員のToDoリストのページ
      */
     @GetMapping("/{mid}/todos/all")
-    String showAllToDoList(@PathVariable String mid, Model model) {
+    String showAllToDoList(@PathVariable String mid,
+                           @RequestParam(name = "sort_by", required = false) String sortBy,
+                           @RequestParam(name = "order", required = false) String order, Model model) {
         Member m = mService.getMember(mid);
-        List<ToDo> todos = tService.getToDoList();
-        List<ToDo> dones = tService.getDoneList();
+        // デフォルト値を入れておく．
+        sortBy = getDefault(sortBy, "seq");
+        order = getDefault(order, "asc");
+        List<ToDo> todos = tService.getToDoList(sortBy, order);
+        List<ToDo> dones = tService.getDoneList(sortBy, order);
         model.addAttribute("member", m);
         model.addAttribute("todos", todos);
         model.addAttribute("dones", dones);
         return "alllist";
+    }
+
+    private String getDefault(String value, String defaultValue) {
+        if(value == null || Objects.equals(value.trim(), "")) {
+            return defaultValue;
+        }
+        return value;
     }
 
     /**
