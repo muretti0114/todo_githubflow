@@ -11,17 +11,22 @@
     <h2>メンバー新規登録</h2>
     <p> メンバーIDと氏名を入力して，「確認する」を押してください．</p>
     <ul>
-        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます</li>
+        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます．4文字以上16文字未満．</li>
+        <li>氏名は最大32文字．半角・全角が使用できます．</li>
     </ul>
     <form role="form" th:action="@{/admin/check}" th:object="${MemberForm}" method="post">
         <table>
             <tr>
                 <td><label>メンバーID: </label></td>
-                <td><input type="text" required th:field="*{mid}" /></td>
+                <td><input type="text" required th:field="*{mid}" />
+                    <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" style="color: red"></span>
+                </td>
             </tr>
             <tr>
                 <td><label>氏名: </label></td>
-                <td><input type="text" required th:field="*{name}" /></td>
+                <td><input type="text" required th:field="*{name}" />
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></span>
+                </td>
             </tr>
         </table>
         <p><input type="submit" value="確認する" /></p>
@@ -40,4 +45,5 @@
         </tr>
     </table>
 </body>
+
 </html>
