@@ -54,8 +54,8 @@ public class ToDoController {
         Member m = mService.getMember(mid);
         ToDoForm form = new ToDoForm();
         // デフォルト値を入れておく．
-        sortBy = getDefault(sortBy, "id");
-        order = getDefault(sortBy, "asc");
+        sortBy = getDefault(sortBy, "seq");
+        order = getDefault(order, "asc");
         List<ToDo> todos = tService.getToDoList(mid, sortBy, order);
         List<ToDo> dones = tService.getDoneList(mid, sortBy, order);
         model.addAttribute("member", m);
@@ -74,8 +74,8 @@ public class ToDoController {
                            @RequestParam(name = "order", required = false) String order, Model model) {
         Member m = mService.getMember(mid);
         // デフォルト値を入れておく．
-        sortBy = getDefault(sortBy, "id");
-        order = getDefault(sortBy, "asc");
+        sortBy = getDefault(sortBy, "seq");
+        order = getDefault(order, "asc");
         List<ToDo> todos = tService.getToDoList(sortBy, order);
         List<ToDo> dones = tService.getDoneList(sortBy, order);
         model.addAttribute("member", m);

@@ -13,22 +13,24 @@ public interface ToDoRepository extends CrudRepository<ToDo, Long> {
     List<ToDo> findByMidAndDone(String mid, boolean done);
 
     // ソート機能を追加する．
+    List<ToDo> findByDoneOrderBySeqAsc(boolean done);
     List<ToDo> findByDoneOrderBySeqDesc(boolean done);
-    List<ToDo> findByDoneOrderByTitle(boolean done);
+    List<ToDo> findByDoneOrderByTitleAsc(boolean done);
     List<ToDo> findByDoneOrderByTitleDesc(boolean done);
-    List<ToDo> findByDoneOrderByMid(boolean done);
+    List<ToDo> findByDoneOrderByMidAsc(boolean done);
     List<ToDo> findByDoneOrderByMidDesc(boolean done);
-    List<ToDo> findByDoneOrderByCreatedAt(boolean done);
+    List<ToDo> findByDoneOrderByCreatedAtAsc(boolean done);
     List<ToDo> findByDoneOrderByCreatedAtDesc(boolean done);
-    List<ToDo> findByDoneOrderByDoneAt(boolean done);
+    List<ToDo> findByDoneOrderByDoneAtAsc(boolean done);
     List<ToDo> findByDoneOrderByDoneAtDesc(boolean done);
 
     // ソート機能を追加する．
+    List<ToDo> findByMidAndDoneOrderBySeqAsc(String mid, boolean done);
     List<ToDo> findByMidAndDoneOrderBySeqDesc(String mid, boolean done);
-    List<ToDo> findByMidAndDoneOrderByTitle(String mid, boolean done);
+    List<ToDo> findByMidAndDoneOrderByTitleAsc(String mid, boolean done);
     List<ToDo> findByMidAndDoneOrderByTitleDesc(String mid, boolean done);
-    List<ToDo> findByMidAndDoneOrderByCreatedAt(String mid, boolean done);
+    List<ToDo> findByMidAndDoneOrderByCreatedAtAsc(String mid, boolean done);
     List<ToDo> findByMidAndDoneOrderByCreatedAtDesc(String mid, boolean done);
-    List<ToDo> findByMidAndDoneOrderByDoneAt(String mid, boolean done);
+    List<ToDo> findByMidAndDoneOrderByDoneAtAsc(String mid, boolean done);
     List<ToDo> findByMidAndDoneOrderByDoneAtDesc(String mid, boolean done);
 }

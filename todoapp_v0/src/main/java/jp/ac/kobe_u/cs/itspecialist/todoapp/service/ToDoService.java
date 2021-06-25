@@ -1,10 +1,9 @@
 package jp.ac.kobe_u.cs.itspecialist.todoapp.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,29 +72,23 @@ public class ToDoService {
         return finder.apply(mid, true);
     }
 
+    private final Map<Pair<String, String>, BiFunction<String, Boolean, List<ToDo>>> midAndDoneFinder = generateMidAndDoneFinder();
+    private final Map<Pair<String, String>, BiFunction<String, Boolean, List<ToDo>>> generateMidAndDoneFinder() {
+        Map<Pair<String, String>, BiFunction<String, Boolean, List<ToDo>>> map = new HashMap<>();
+        map.put(Pair.of("seq", "asc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderBySeqAsc(mid, doneFlag));
+        map.put(Pair.of("seq", "desc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderBySeqDesc(mid, doneFlag));
+        map.put(Pair.of("title", "asc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitleAsc(mid, doneFlag));
+        map.put(Pair.of("title", "desc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitleDesc(mid, doneFlag));
+        map.put(Pair.of("created_at", "asc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAtAsc(mid, doneFlag));
+        map.put(Pair.of("created_at", "desc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAtDesc(mid, doneFlag));
+        map.put(Pair.of("done_at", "asc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAtAsc(mid, doneFlag));
+        map.put(Pair.of("done_at", "desc"), (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAtDesc(mid, doneFlag));
+        return map;
+    }
+
     private BiFunction<String, Boolean, List<ToDo>> selectFinderByMidAndDone(String sortBy, String order) {
-        if(Objects.equals(sortBy, "seq")){
-            if(Objects.equals(order, "asc"))
-                return (mid, doneFlag) -> tRepo.findByMidAndDone(mid, doneFlag);
-            else
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderBySeqDesc(mid, doneFlag);
-        } else if(Objects.equals(sortBy, "title")) {
-            if(Objects.equals(order, "asc"))
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitle(mid, doneFlag);
-            else
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByTitleDesc(mid, doneFlag);
-        } else if(Objects.equals(sortBy, "created_at")) {
-            if(Objects.equals(order, "asc"))
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAt(mid, doneFlag);
-            else
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByCreatedAtDesc(mid, doneFlag);
-        } else if(Objects.equals(sortBy, "done_at")) {
-            if(Objects.equals(order, "asc"))
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAt(mid, doneFlag);
-            else
-                return (mid, doneFlag) -> tRepo.findByMidAndDoneOrderByDoneAtDesc(mid, doneFlag);
-        }
-        return (mid, doneFlag) -> tRepo.findByMidAndDone(mid, doneFlag);
+        return midAndDoneFinder.getOrDefault(Pair.of(sortBy, order),
+                (mid, doneFlag) -> tRepo.findByMidAndDone(mid, doneFlag));
     }
 
     /**
@@ -105,7 +98,6 @@ public class ToDoService {
     public List<ToDo> getToDoList(String sortBy, String order) {
         Function<Boolean, List<ToDo>> mapper = selectFinderByDone(sortBy, order);
         return mapper.apply(false);
-        // return tRepo.findByDone(false);
     }
 
     /**
@@ -115,37 +107,27 @@ public class ToDoService {
     public List<ToDo> getDoneList(String sortBy, String order) {
         Function<Boolean, List<ToDo>> mapper = selectFinderByDone(sortBy, order);
         return mapper.apply(true);
-        // return tRepo.findByDone(true);
+    }
+
+    private final Map<Pair<String, String>, Function<Boolean, List<ToDo>>> doneFinder =generateDoneFinder();
+    private final Map<Pair<String, String>, Function<Boolean, List<ToDo>>> generateDoneFinder() {
+        Map<Pair<String, String>, Function<Boolean, List<ToDo>>> map = new HashMap<>();
+        map.put(Pair.of("seq", "asc"), (doneFlag) -> tRepo.findByDoneOrderBySeqAsc(doneFlag));
+        map.put(Pair.of("seq", "desc"), (doneFlag) -> tRepo.findByDoneOrderBySeqDesc(doneFlag));
+        map.put(Pair.of("title", "asc"), (doneFlag) -> tRepo.findByDoneOrderByTitleAsc(doneFlag));
+        map.put(Pair.of("title", "desc"), (doneFlag) -> tRepo.findByDoneOrderByTitleDesc(doneFlag));
+        map.put(Pair.of("mid", "asc"), (doneFlag) -> tRepo.findByDoneOrderByMidAsc(doneFlag));
+        map.put(Pair.of("mid", "desc"), (doneFlag) -> tRepo.findByDoneOrderByMidDesc(doneFlag));
+        map.put(Pair.of("created_at", "asc"), (doneFlag) -> tRepo.findByDoneOrderByCreatedAtAsc(doneFlag));
+        map.put(Pair.of("created_at", "desc"), (doneFlag) -> tRepo.findByDoneOrderByCreatedAtDesc(doneFlag));
+        map.put(Pair.of("done_at", "asc"), (doneFlag) -> tRepo.findByDoneOrderByDoneAtAsc(doneFlag));
+        map.put(Pair.of("done_at", "desc"), (doneFlag) -> tRepo.findByDoneOrderByDoneAtDesc(doneFlag));
+        return map;
     }
 
     private Function<Boolean, List<ToDo>> selectFinderByDone(String sortBy, String order) {
-        if(Objects.equals(sortBy, "seq")){
-            if(Objects.equals(order, "asc"))
-                return (doneFlag) -> tRepo.findByDone(doneFlag);
-            else
-                return (doneFlag) -> tRepo.findByDoneOrderBySeqDesc(doneFlag);
-        } else if(Objects.equals(sortBy, "title")) {
-            if(Objects.equals(order, "asc"))
-                return (doneFlag) -> tRepo.findByDoneOrderByTitle(doneFlag);
-            else
-                return (doneFlag) -> tRepo.findByDoneOrderByTitleDesc(doneFlag);
-        } else if(Objects.equals(sortBy, "mid")) {
-            if(Objects.equals(order, "asc"))
-                return (doneFlag) -> tRepo.findByDoneOrderByMid(doneFlag);
-            else
-                return (doneFlag) -> tRepo.findByDoneOrderByMidDesc(doneFlag);
-        } else if(Objects.equals(sortBy, "created_at")) {
-            if(Objects.equals(order, "asc"))
-                return (doneFlag) -> tRepo.findByDoneOrderByCreatedAt(doneFlag);
-            else
-                return (doneFlag) -> tRepo.findByDoneOrderByCreatedAtDesc(doneFlag);
-        } else if(Objects.equals(sortBy, "done_at")) {
-            if(Objects.equals(order, "asc"))
-                return (doneFlag) -> tRepo.findByDoneOrderByDoneAt(doneFlag);
-            else
-                return (doneFlag) -> tRepo.findByDoneOrderByDoneAtDesc(doneFlag);
-        }
-        return (doneFlag) -> tRepo.findByDone(doneFlag);
+        return doneFinder.getOrDefault(Pair.of(sortBy, order),
+                (doneFlag) -> tRepo.findByDone(doneFlag));
     }
 
     /**
