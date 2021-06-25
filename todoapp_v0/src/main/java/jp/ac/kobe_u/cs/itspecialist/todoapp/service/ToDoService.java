@@ -94,11 +94,29 @@ public class ToDoService {
         ToDo todo = getToDo(seq);
         //Doneの認可を確認する．他人のToDoを閉めたらダメ．
         if (!mid.equals(todo.getMid())) {
-            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid 
-            + ": Cannot done other's todo of " + todo.getMid());
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
+                    + ": Cannot done other's todo of " + todo.getMid());
         }
         todo.setDone(true);
         todo.setDoneAt(new Date());
+        return tRepo.save(todo);
+    }
+
+    /**
+     * ToDoの完了をキャンセルする．
+     * @param mid
+     * @param seq
+     * @return
+     */
+    public ToDo cancel(String mid, Long seq) {
+        ToDo todo = getToDo(seq);
+        //Doneの認可を確認する．他人のToDoを閉めたらダメ．
+        if (!mid.equals(todo.getMid())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
+                    + ": Cannot done other's todo of " + todo.getMid());
+        }
+        todo.setDone(false);
+        todo.setDoneAt(null);
         return tRepo.save(todo);
     }
 

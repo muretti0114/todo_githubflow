@@ -87,9 +87,19 @@ public class ToDoController {
      * ToDoの完了．処理後，ユーザページへリダイレクト
      */
     @GetMapping("/{mid}/todos/{seq}/done")
-    String doneToDo(@PathVariable String mid, 
-        @PathVariable Long seq, Model model) {
-            tService.done(mid, seq);
+    String doneToDo(@PathVariable String mid,
+                    @PathVariable Long seq, Model model) {
+        tService.done(mid, seq);
+        return "redirect:/" + mid + "/todos";
+    }
+
+    /**
+     * ToDoの完了．処理後，ユーザページへリダイレクト
+     */
+    @GetMapping("/{mid}/todos/{seq}/cancel")
+    String cancelToDo(@PathVariable String mid,
+                    @PathVariable Long seq, Model model) {
+        tService.cancel(mid, seq);
         return "redirect:/" + mid + "/todos";
     }
 
