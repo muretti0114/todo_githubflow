@@ -1,0 +1,87 @@
+/* htmlの周囲の余白を作る */
+body {
+  margin: 20px; /* 外側の余白を40pxにする */
+  padding: 0; /* 内側の余白を消す(念のため) */
+}
+
+/* h1(タイトル)のデザイン */
+h1 {
+  padding: 0.5em; /*文字周りの余白*/
+  color: #494949; /*文字色*/
+  background: #e6f2f5; /*背景色*/
+  border-left: solid 5px #78bbc7; /*左線（実線 太さ 色）*/
+}
+
+/* h2, h3(見出し)のデザイン */
+h2,
+h3 {
+  margin: 20px;
+
+  color: #494949; /*文字色*/
+  background: #e6f2f5; /*背景色*/
+  border-bottom: solid 3px #78bbc7; /*下線*/
+}
+
+/* img(画像)のデザイン */
+img {
+  margin: 20px;
+}
+
+/* form(ログイン時)のデザイン */
+form {
+  width: 460px;
+  padding: 0.5em;
+  background: #e6f2f5; /*背景色*/
+}
+
+/* table(表)のデザイン、以下も同様 */
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  padding: 0;
+  width: 650px;
+  table-layout: fixed;
+  background: #e6f2f5; /*背景色*/
+}
+
+table tr {
+  background-color: #e6f2f5;
+  padding: 0.35em;
+  border-bottom: 2px solid #fff;
+}
+table th,
+table td {
+  padding: 1em 10px 1em 1em;
+  border-right: 2px solid #fff;
+}
+table th {
+  font-size: 0.85em;
+}
+table thead tr {
+  background-color: #167f92;
+  color: #fff;
+}
+table tbody th {
+  background: #78bbc7;
+  color: #fff;
+}
+.txt {
+  text-align: left;
+  font-size: 0.85em;
+}
+
+/* a(リンク)のデザイン */
+a {
+  font-weight: bold; /*太字に*/
+  text-decoration: none; /*下線消す*/
+  background: skyblue; /*背景を水色に*/
+  color: white; /*文字を白に*/
+  padding: 5px 10px; /*内側の余白*/
+  border-radius: 20px; /*角を丸くする*/
+  font-family: 'Avenir', 'Arial'; /*フォントをいい感じに*/
+}
+
+a:hover {
+  background: silver; /*背景色をシルバーに*/
+  text-decoration: none; /*下線を消す*/
+}

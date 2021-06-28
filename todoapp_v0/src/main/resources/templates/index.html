@@ -1,26 +1,50 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>ToDoアプリケーション</title>
-</head>
 
-<body>
+    <!-- bootstrap, <head>の中に以下のcss,jsを入れる -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- 手書きcss, <head>の中に以下のcssを入れる -->
+    <link rel="stylesheet" th:href=@{/css/todo_css.css} />
+  </head>
+
+  <body>
     <h1>ToDoアプリケーション</h1>
     <img th:src=@{/img/todo_people.png} width="640px">
-    <p>
-        ログインしてください．メンバーIDがない人は，管理者にお問い合わせください．
-    </p>
-    <form role="form" th:action="@{/login}" method="post">
-        <p>
-            <label>メンバーID: </label>
-            <input type="text" id="mid" name="mid" /> 
-        </p>
-        <p>
-            <input type="submit" value="ログイン" />
-        </p>
-    </form>
-</body>
 
+    <form role="form" th:action="@{/login}" method="post">
+      <h3>ログインフォーム</h3>
+      <p>
+        <label>メンバーID: </label>
+        <input type="text" id="mid" name="mid" />
+      </p>
+      <p>
+        <input type="submit" value="ログイン" />
+      </p>
+      <p>メンバーIDがない人は，管理者にお問い合わせください．</p>
+    </form>
+  </body>
 </html>
