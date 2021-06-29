@@ -2,6 +2,8 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
 import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.ToDo;
 import lombok.Data;
 
@@ -10,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class ToDoForm {
+    @Size(min=1, max=32)
     String title; //ToDo題目
 
     public ToDo toEntity() {

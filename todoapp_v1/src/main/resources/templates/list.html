@@ -36,6 +36,7 @@
                 <form role="form" th:action="@{/{mid}/todos(mid=${member.mid})}" th:object="${ToDoForm}" method="post">
                     <input type="text" required th:field="*{title}" />
                     <input type="submit" value="新規作成" />
+                    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red"></div>
                 </form>
             </td>
         </tr>

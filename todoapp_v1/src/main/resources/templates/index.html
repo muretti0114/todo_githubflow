@@ -12,10 +12,11 @@
     <p>
         ログインしてください．メンバーIDがない人は，管理者にお問い合わせください．
     </p>
-    <form role="form" th:action="@{/login}" method="post">
+    <form role="form" th:action="@{/login}" th:object="${loginForm}" method="post">
         <p>
             <label>メンバーID: </label>
-            <input type="text" id="mid" name="mid" /> 
+            <input type="text" th:field="*{mid}" /> 
+            <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" style="color: red"></span>
         </p>
         <p>
             <input type="submit" value="ログイン" />
