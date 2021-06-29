@@ -3,11 +3,11 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.Bindable.BindRestriction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +17,7 @@ import jp.ac.kobe_u.cs.itspecialist.todoapp.dto.LoginForm;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.dto.ToDoForm;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.Member;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.entity.ToDo;
+import jp.ac.kobe_u.cs.itspecialist.todoapp.exception.ToDoAppException;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.service.MemberService;
 import jp.ac.kobe_u.cs.itspecialist.todoapp.service.ToDoService;
 
@@ -32,7 +33,7 @@ public class ToDoController {
      */
     @GetMapping("/")
     String showIndex(@ModelAttribute(name = "loginForm") LoginForm loginForm, Model model) {
-        model.addAttribute("loginForm", loginForm);
+        //model.addAttribute("loginForm", loginForm);
         return "index";
     }
 
@@ -102,4 +103,13 @@ public class ToDoController {
         return "redirect:/" + mid + "/todos";
     }
 
+    /**
+     * アプリケーション例外をハンドルし，エラーページを表示する
+     */
+    @ExceptionHandler(ToDoAppException.class)
+    public String handleException(ToDoAppException ex, Model model) {
+        model.addAttribute("exception", ex);
+
+        return "error";
+    }
 }
