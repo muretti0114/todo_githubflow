@@ -11,7 +11,10 @@
 
 
      <img th:src="@{/img/todo_error.png}" width="320px"> <br/>
-     エラーが発生しました．メッセージを確認してください．
+     
+     <h3>
+        [[${advice}]]         
+     </h3>
     
     <p style="color:red">
         [[${exception.message}]]
