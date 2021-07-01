@@ -1,6 +1,7 @@
 package jp.ac.kobe_u.cs.itspecialist.todoapp.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,6 +18,8 @@ public class ToDoAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     MemberService mService;
     
+    @Value("${admin.pass}")
+    String adminPass;
 
 
     @Override
@@ -55,7 +58,7 @@ public class ToDoAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(mService).passwordEncoder(passwordEncoder());
-        mService.registerAdmin("renkon");
+        mService.registerAdmin(adminPass);
     }
 
     @Bean
