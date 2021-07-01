@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登録完了</title>
+</head>
+
+<body>
+    <h1>登録完了</h1>
+    <p>
+        メンバー登録を完了しました．
+    </p>
+
+    <div th:object="${MemberForm}">
+        <p>
+            <label>メンバーID: </label>
+            [[*{mid}]]
+        </p>
+        <p>
+            <label>氏名: </label>
+            [[*{name}]]
+        </p>
+        <p>
+            <a th:href=@{/}>初めに戻る</a>
+        </p>
+    </div>
+</body>
+
+</html>
