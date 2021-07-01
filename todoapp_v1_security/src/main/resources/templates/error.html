@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>エラー</title>
+</head>
+
+<body>
+    <h1>エラー</h1>
+
+
+     <img th:src="@{/img/todo_error.png}" width="320px"> <br/>
+     
+     <h3>
+        [[${advice}]]         
+     </h3>
+    
+    <p style="color:red">
+        [[${exception.message}]]
+    </p>
+    
+    <input type="button" onclick="history.back()" value="戻る" />
+</body>
+
+</html>
