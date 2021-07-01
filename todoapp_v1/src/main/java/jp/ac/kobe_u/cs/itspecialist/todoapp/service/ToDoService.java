@@ -94,4 +94,40 @@ public class ToDoService {
         todo.setDoneAt(new Date());
         return tRepo.save(todo);
     }
+
+    /**
+     * ToDoを更新する
+     * @param mid 更新者
+     * @param seq 更新するToDo番号
+     * @param form　更新フォーム
+     * @return
+     */
+    public ToDo updateToDo(String mid, Long seq, ToDoForm form) {
+        ToDo todo = getToDo(seq);
+        //Doneの認可を確認する．他人のToDoを更新したらダメ．
+        if (!mid.equals(todo.getMid())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid 
+            + ": Cannot update other's todo of " + todo.getMid());
+        }
+        todo.setTitle(form.getTitle()); //タイトルを更新
+        return tRepo.save(todo);
+    }
+
+    /**
+     * ToDoを削除する
+     * @param mid 削除者
+     * @param seq 削除するToDo番号
+     */
+    public void deleteToDo(String mid, Long seq) {
+        ToDo todo = getToDo(seq);
+        //Doneの認可を確認する．他人のToDoを削除したらダメ．
+        if (!mid.equals(todo.getMid())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid 
+            + ": Cannot delete other's todo of " + todo.getMid());
+        }
+        tRepo.deleteById(seq);
+    }
+
+
+
 }

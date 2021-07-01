@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class MemberForm {
     @Pattern(regexp ="[a-z0-9_\\-]{4,16}")
-    String mid; //メンバーID．英小文字，数字，ハイフン，アンダーバー．4文字以上16文字未満．
+    String mid; //メンバーID．英小文字，数字，ハイフン，アンダーバー．4文字以上16文字以下．
 
     @NotBlank
     @Size(min = 1, max = 32)
