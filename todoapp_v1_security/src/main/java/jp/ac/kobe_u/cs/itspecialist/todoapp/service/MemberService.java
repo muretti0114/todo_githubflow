@@ -74,6 +74,10 @@ public class MemberService implements UserDetailsService{
         mRepo.delete(m);
     }
 
+    /* ------------------ ここから追加分  ---------------------------*/
+    /**
+     * Spring Securityのメソッド．ユーザIDを与えて，ユーザ詳細を生成する
+     */
     @Override
     public UserDetails loadUserByUsername(String mid) throws UsernameNotFoundException {
         Member m = mRepo.findById(mid).orElseThrow(
@@ -82,6 +86,9 @@ public class MemberService implements UserDetailsService{
         return new UserDetailsImpl(m);
     }
 
+    /**
+     * 管理者を登録するサービス．
+     */
     public Member registerAdmin(String adminPassword) {
         Member m = new Member();
         m.setMid("admin");

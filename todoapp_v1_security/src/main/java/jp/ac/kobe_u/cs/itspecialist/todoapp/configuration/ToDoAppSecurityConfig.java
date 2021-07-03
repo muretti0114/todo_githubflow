@@ -21,13 +21,18 @@ public class ToDoAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${admin.pass}")
     String adminPass;
 
-
+    /**
+     * 静的リソースの認可設定
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/img/**", "/css/**", "/js/**");
 
     }
 
+    /**
+     * HTTPリクエストに対する認可，および，ログイン・ログアウト設定
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //認可の設定
@@ -55,12 +60,20 @@ public class ToDoAppSecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll();                              //6. ログアウトはいつでもアクセスできる
     }
 
+    /**
+     * 認証の方法を設定
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(mService).passwordEncoder(passwordEncoder());
+        //ついでに管理者を登録しておく
         mService.registerAdmin(adminPass);
     }
 
+    /**
+     * アプリで共通のパスワード生成器を作る．
+     * @Beanをつけているので任意の箇所でAutowired可能になる
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
