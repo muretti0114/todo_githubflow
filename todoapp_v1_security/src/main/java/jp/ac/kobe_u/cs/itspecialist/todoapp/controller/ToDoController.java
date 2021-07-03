@@ -47,9 +47,6 @@ public class ToDoController {
         return "signin";
     }
 
-
-
-
     /**
      * ログイン処理．midの存在確認をして，ユーザページにリダイレクト
      */
@@ -120,6 +117,10 @@ public class ToDoController {
         return "redirect:/" + mid + "/todos";
     }
 
+
+    /**
+     * 認可チェック．与えられたmidがログイン中のmidに等しいかチェックする
+     */
     private void checkIdentity(String mid) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Member m  = ((UserDetailsImpl) auth.getPrincipal()).getMember();

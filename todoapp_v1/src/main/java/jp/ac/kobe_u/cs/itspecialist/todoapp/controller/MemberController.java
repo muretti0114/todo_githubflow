@@ -30,7 +30,7 @@ public class MemberController {
      * @return
      */
     @GetMapping("/register")
-    String showUserForm(@ModelAttribute MemberForm form, Model model) {
+    String showUserForm(@ModelAttribute(name = "MemberForm") MemberForm form, Model model) {
         List<Member> members = mService.getAllMembers();
         model.addAttribute("members", members);
         model.addAttribute("MemberForm", form);
@@ -67,7 +67,14 @@ public class MemberController {
      * @return
      */
     @PostMapping("/register")
-    String createUser(@ModelAttribute(name = "MemberForm") MemberForm form, Model model) {
+    String createUser(@Validated @ModelAttribute(name = "MemberForm") MemberForm form, 
+        BindingResult bindingResult, Model model)  {
+        // 入力チェックに引っかかった場合、ユーザー登録画面に戻る
+        if (bindingResult.hasErrors()) {
+            // GETリクエスト用のメソッドを呼び出して、ユーザー登録画面に戻る
+            return showUserForm(form, model);
+        }
+
         Member m = mService.createMember(form);
         model.addAttribute("MemberForm", m);
 

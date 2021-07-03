@@ -5,6 +5,7 @@ package jp.ac.kobe_u.cs.itspecialist.todoapp.exception;
  * ToDoアプリ例外
  */
 public class ToDoAppException extends RuntimeException{
+    private static final long serialVersionUID = 1L;
     public static final int NO_SUCH_MEMBER_EXISTS = 101;
     public static final int MEMBER_ALREADY_EXISTS = 102;
     public static final int INVALID_MEMBER_INFO = 103;
