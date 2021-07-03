@@ -117,7 +117,7 @@ public class ToDoRestController {
     /* -- その他の例外 -- */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
-        return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
