@@ -1,0 +1,29 @@
+version: "3"
+services:
+  todoapp:
+    image: tomcat:9-jdk11-corretto
+    container_name: tomcat_todoapp
+    ports:
+      - 8080:8080
+    volumes: # ホストOSのディレクトリ:コンテナOSでのマウント先
+      - ./build/libs:/usr/local/tomcat/webapps
+    environment: # Docker-compose で起動した時の接続先．application.propertiesも参照のこと．
+      DATASTORE: jdbc:mysql://db:3306/todoapp
+  db:
+    image: mysql:8.0
+    container_name: todo_mysql
+    restart: always
+    ports: # ホストOSのポート番号:コンテナOSのポート番号
+      - 13306:3306
+      # ホストOSで mysql を起動しっぱなしにしておくため，ポート番号を分ける．
+      # 上の DATASTORE のポート番号は db のポート番号であるため，3306 で良い．
+    volumes:
+      - ./build/mysql/data:/var/lib/mysql                  # データ置き場
+      - ./src/docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf # 設定ファイル
+    environment:
+      MYSQL_ROOT_PASSWORD: 'rootroot'
+      MYSQL_DATABASE: 'todoapp'
+      MYSQL_USER: 'todouser'
+      MYSQL_PASSWORD: 'todotodo'
+      TZ: 'Asia/Tokyo'
+
